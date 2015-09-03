@@ -214,22 +214,22 @@ namespace tinystl {
 
 	template<typename T, typename Alloc, typename Param>
 	static inline void buffer_insert(buffer<T, Alloc>* b, T* where, const Param* first, const Param* last) {
-		typedef const char* pointer;
+		typedef T* pointer;
+		pointer origfirst = b->first;
+		pointer origlast = b->last;
 		const size_t count = last - first;
-		const bool frombuf = ((pointer)b->first <= (pointer)first && (pointer)b->last >= (pointer)last);
-		size_t offset;
-		if (frombuf) {
-			offset = (pointer)first - (pointer)b->first;
-			if ((pointer)where <= (pointer)first)
+		T* it = buffer_insert_common(b, where, count);
+
+		if (origfirst <= (pointer)first && origlast >= (pointer)last) {
+			size_t offset = (const char*)first - (const char*)origfirst;
+			if ((const char*)where <= (const char*)first)
 				offset += count * sizeof(T);
-		}
-		where = buffer_insert_common(b, where, count);
-		if (frombuf) {
-			first = (Param*)((pointer)b->first + offset);
+			first = (Param*)((const char*)b->first + offset);
 			last = first + count;
 		}
-		for (; first != last; ++first, ++where)
-			new(placeholder(), where) T(*first);
+
+		for (; first != last; ++first, ++it)
+			new(placeholder(), it) T(*first);
 	}
 
 	template<typename T, typename Alloc>
