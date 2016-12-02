@@ -92,6 +92,9 @@ namespace tinystl {
 
 		void swap(string& other);
 
+		void tolower();
+		void toupper();
+
 	private:
 		typedef char* pointer;
 		static const size_t c_nbuffer = 16;
@@ -413,6 +416,18 @@ namespace tinystl {
 		} else {
 			for (pointer it = tbuffer, newit = other.m_buffer, e = tbuffer + tsize + 1; it != e; ++it, ++newit)
 				*newit = *it;
+		}
+	}
+
+	inline void string::tolower() {
+		for (iterator it = begin(), last = end(); it != last; it++) {
+			*it = (*it > 0x40 && *it < 0x5b) ? (*it | 0x60) : *it;
+		}
+	}
+
+	inline void string::toupper() {
+		for (iterator it = begin(), last = end(); it != last; it++) {
+			*it = (*it > 0x60 && *it < 0x7b) ? (*it & ~0x20) : *it;
 		}
 	}
 

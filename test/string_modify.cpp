@@ -69,3 +69,11 @@ TEST(test_erase) {
 	s.erase(s.begin(), s.end());
 	CHECK(s.empty());
 }
+
+TEST(test_case) {
+	tinystl::string s("Hello, World!");
+	s.tolower();
+	CHECK(s == "hello, world!");
+	s.toupper();
+	CHECK(s == "HELLO, WORLD!");
+}
