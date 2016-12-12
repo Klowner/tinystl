@@ -129,7 +129,7 @@ namespace tinystl {
 	}
 
 	template<typename Key, typename Value>
-	static inline void unordered_hash_node_erase(const unordered_hash_node<Key, Value>* where, size_t hash, unordered_hash_node<Key, Value>** buckets, size_t nbuckets) {
+	inline unordered_hash_node<Key, Value>* unordered_hash_node_erase(const unordered_hash_node<Key, Value>* where, size_t hash, unordered_hash_node<Key, Value>** buckets, size_t nbuckets) {
 		size_t bucket = hash & (nbuckets - 1);
 
 		unordered_hash_node<Key, Value>* next = where->next;
@@ -143,6 +143,7 @@ namespace tinystl {
 			where->prev->next = where->next;
 		if (next)
 			next->prev = where->prev;
+		return next;
 	}
 
 	template<typename Node>
