@@ -77,3 +77,9 @@ TEST(test_case) {
 	s.toupper();
 	CHECK(s == "HELLO, WORLD!");
 }
+
+TEST(test_replace_char) {
+	tinystl::string s("replace\\with\\forward\\slashes");
+	s.replace_char('\\', '/');
+	CHECK(s == "replace/with/forward/slashes");
+}

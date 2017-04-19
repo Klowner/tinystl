@@ -94,6 +94,7 @@ namespace tinystl {
 
 		void tolower();
 		void toupper();
+		void replace_char(const char oldChar, const char newChar);
 
 	private:
 		typedef char* pointer;
@@ -431,6 +432,12 @@ namespace tinystl {
 		}
 	}
 
+	inline void string::replace_char(const char oldChar, const char newChar) {
+		for (iterator it = begin(), last = end(); it != last; it++) {
+			*it = (*it == oldChar) ? newChar : *it;
+		}
+	}
+
 	inline string operator+(const string& lhs, const string& rhs) {
 		string ret;
 		ret.reserve(lhs.size() + rhs.size());
@@ -529,6 +536,7 @@ namespace tinystl {
 	static inline size_t hash(const string& value) {
 		return hash_string(value.c_str(), value.size());
 	}
+
 }
 
 #endif
